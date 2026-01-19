@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizen Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-brand">Grievance Portal</div>
+        <div class="nav-user">
+            <span id="userDisplay">Welcome</span>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <div class="container dashboard-container">
+        <div class="new-complaint-section">
+            <h2>Submit New Grievance</h2>
+            <form id="grievanceForm">
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Dashboard</title>
+                    <link rel="stylesheet" href="style.css">
+                </head>
+                <body class="bg-grey">
+                    <nav>
+                        <div class="logo">Citizen Grievance Portal</div>
+                        <button onclick="logout()" class="btn-outline">Logout</button>
+                    </nav>
+
+                    <div class="container">
+                        <div class="header-row">
+                            <div>
+                                <h2>Citizen Dashboard</h2>
+                                <p>Welcome back, <span id="userName">User</span></p>
+                            </div>
+                            <button class="btn-primary" onclick="showComplaintForm()">+ New Complaint</button>
+                        </div>
+
+                        <div class="stats-grid">
+                            <div class="card stat-card">
+                                <h3>Total Complaints</h3>
+                                <h1 id="statTotal">0</h1>
+                                <span>All time</span>
+                            </div>
+                            <div class="card stat-card">
+                                <h3>Pending</h3>
+                                <h1 id="statPending" class="text-orange">0</h1>
+                                <span>Awaiting review</span>
+                            </div>
+                            <div class="card stat-card">
+                                <h3>Resolved</h3>
+                                <h1 id="statResolved" class="text-green">0</h1>
+                                <span>Completed</span>
+                            </div>
+                        </div>
+
+                        <div class="section-title">My Complaints</div>
+                        <div id="complaintsList"></div>
+                    </div>
+
+                    <div id="complaintModal" class="modal hidden">
+                        <div class="modal-content">
+                            <h3>Submit New Complaint</h3>
+                            <form id="newComplaintForm">
+                                <label>Complaint Title</label>
+                                <input type="text" id="cTitle" required>
+                
+                                <label>Category</label>
+                                <select id="cCategory">
+                                    <option>Public Works</option>
+                                    <option>Sanitation</option>
+                                    <option>Electricity</option>
+                                </select>
+
+                                <label>Priority</label>
+                                <select id="cPriority">
+                                    <option>Medium</option>
+                                    <option>High</option>
+                                    <option>Critical</option>
+                                </select>
+
+                                <button type="submit" class="btn-primary">Submit Complaint</button>
+                                <button type="button" onclick="hideComplaintForm()" class="btn-outline">Cancel</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <script src="script.js"></script>
+                    <script>loadDashboard();</script>
+                </body>
+                </html>
