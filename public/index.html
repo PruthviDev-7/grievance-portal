@@ -3,33 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Citizen Grievance Portal</title>
+    <title>Citizen Grievance Portal - Login</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-light">
+<body class="login-body">
     <div class="login-container">
-        <h1>Citizen Grievance Portal</h1>
-        <p class="subtitle">Your Voice, Our Priority</p>
-
-        <div class="card login-card">
-            <h3>Welcome</h3>
-            <p>Login to file complaints and track grievances</p>
-            
-            <div class="toggle-btn">
-                <button class="active" id="btn-citizen">Citizen Login</button>
-                <button id="btn-official">Official Login</button>
+        <div class="login-card">
+            <div class="login-header">
+                <h1 class="portal-title">Citizen Grievance Portal</h1>
+                <p class="portal-subtitle">Your Voice, Our Priority</p>
             </div>
 
-            <form id="loginForm">
-                <label>Government ID / Aadhaar Number</label>
-                <input type="text" id="idInput" placeholder="Enter your ID number" required>
+            <div class="welcome-section">
+                <h2>Welcome</h2>
+                <p>Login to file complaints and track grievances</p>
+            </div>
+
+            <div class="role-toggle">
+                <button class="role-btn active" id="btn-citizen" data-role="citizen">Citizen Login</button>
+                <button class="role-btn" id="btn-official" data-role="official">Official Login</button>
+            </div>
+
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="idInput">Government ID / Aadhaar Number</label>
+                    <input type="text" id="idInput" placeholder="Enter your ID number" required>
+                </div>
                 
-                <label>Password</label>
-                <input type="password" id="passwordInput" placeholder="Enter your password" required>
+                <div class="form-group">
+                    <label for="passwordInput">Password</label>
+                    <input type="password" id="passwordInput" placeholder="Enter your password" required>
+                </div>
                 
-                <button type="submit" class="btn-primary">Login as Citizen</button>
+                <button type="submit" class="btn-primary btn-login">Login as Citizen</button>
             </form>
-            <p class="footer-link">Don't have an account? <a href="#">Register here</a></p>
+
+            <div class="login-footer">
+                <p>Don't have an account? <a href="#" class="link">Register here</a></p>
+                <p class="terms">By logging in, you agree to our <a href="#" class="link">Terms & Conditions</a></p>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
