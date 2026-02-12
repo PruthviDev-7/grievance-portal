@@ -3,141 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Citizen Dashboard</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <nav>
-        <div class="nav-brand">Grievance Portal</div>
-        <div class="nav-user">
-            <span id="userDisplay">Welcome</span>
-            <button onclick="logout()">Logout</button>
-        </div>
-    </nav>
-
-    <div class="container dashboard-container">
-        <div class="new-complaint-section">
-            <h2>Submit New Grievance</h2>
-            <form id="grievanceForm">
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Citizen Dashboard - Grievance Portal</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="dashboard-body">
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="nav-content">
-            <div class="nav-logo">Citizen Grievance Portal</div>
-            <div class="nav-right">
-                <span class="user-welcome" id="userDisplay">Welcome, User</span>
-                <button onclick="logout()" class="btn-logout">Logout</button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Container -->
+    <!-- Dashboard Container -->
     <div class="dashboard-container">
+        
         <!-- Header Section -->
         <div class="dashboard-header">
-            <div class="header-content">
-                <h2>Citizen Dashboard</h2>
-                <p class="header-subtitle">Welcome back, <span id="userName">User</span></p>
+            <div class="header-left">
+                <h1 class="dashboard-title">Citizen Dashboard</h1>
+                <p class="dashboard-subtitle" id="userGreeting">Welcome back, Pruthviraj</p>
             </div>
-            <button class="btn-primary btn-new-complaint" onclick="showComplaintForm()">+ New Complaint</button>
-        </div>
-
-        <!-- Statistics Cards -->
-        <div class="stats-section">
-            <div class="stat-card">
-                <div class="stat-number" id="statTotal">0</div>
-                <div class="stat-label">Total Complaints</div>
-                <div class="stat-sub">All time</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number pending" id="statPending">0</div>
-                <div class="stat-label">Pending</div>
-                <div class="stat-sub">Awaiting review</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number resolved" id="statResolved">0</div>
-                <div class="stat-label">Resolved</div>
-                <div class="stat-sub">Completed</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number in-progress" id="statInProgress">0</div>
-                <div class="stat-label">In Progress</div>
-                <div class="stat-sub">Being worked on</div>
+            <div class="header-right">
+                <button class="btn-new-complaint" onclick="showComplaintForm()">+ New Complaint</button>
+                <button class="btn-logout" onclick="logout()">Logout</button>
             </div>
         </div>
 
-        <!-- Complaints Section -->
+        <!-- Stats Section -->
+        <div class="stats-grid">
+            <div class="stat-card total">
+                <h3 class="stat-label">Total Complaints</h3>
+                <p class="stat-number" id="statTotal">0</p>
+                <p class="stat-subtitle">0/All time</p>
+            </div>
+
+            <div class="stat-card pending">
+                <h3 class="stat-label">Pending</h3>
+                <p class="stat-number pending-number" id="statPending">0</p>
+                <p class="stat-subtitle">Awaiting review</p>
+            </div>
+
+            <div class="stat-card in-progress">
+                <h3 class="stat-label">In Progress</h3>
+                <p class="stat-number in-progress-number" id="statInProgress">0</p>
+                <p class="stat-subtitle">Being resolved</p>
+            </div>
+
+            <div class="stat-card resolved">
+                <h3 class="stat-label">Resolved</h3>
+                <p class="stat-number resolved-number" id="statResolved">0</p>
+                <p class="stat-subtitle">Completed</p>
+            </div>
+        </div>
+
+        <!-- My Complaints Section -->
         <div class="complaints-section">
-            <h3 class="section-title">My Complaints</h3>
-            <div id="complaintsList" class="complaints-list">
-                <p class="empty-state">No complaints filed yet</p>
+            <div class="complaints-header">
+                <div>
+                    <h2 class="complaints-title">My Complaints</h2>
+                    <p class="complaints-subtitle">Track and manage your filed grievances</p>
+                </div>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="search-filter-box">
+                <input type="text" id="searchBox" class="search-input" placeholder="Search by ID or title..." onkeyup="filterComplaints()">
+            </div>
+
+            <div class="filter-dropdown">
+                <select id="statusFilter" onchange="filterComplaints()">
+                    <option value="">All Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Resolved">Resolved</option>
+                </select>
+            </div>
+
+            <!-- Complaints List -->
+            <div class="complaints-list" id="complaintsList">
+                <!-- Complaints will be loaded here -->
             </div>
         </div>
     </div>
 
-    <!-- Modal for New Complaint -->
+    <!-- New Complaint Modal -->
     <div id="complaintModal" class="modal hidden">
-        <div class="modal-overlay" onclick="hideComplaintForm()"></div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Submit New Complaint</h3>
-                <button class="modal-close" onclick="hideComplaintForm()">×</button>
+        <div class="modal-content complaint-modal">
+            <div class="modal-back">
+                <button class="back-btn" onclick="hideComplaintForm()">← Back to Dashboard</button>
             </div>
             
+            <div class="modal-header">
+                <h2>Submit New Complaint</h2>
+                <p class="modal-description">Fill out the form below to register your grievance. We'll review it and assign it to the appropriate department.</p>
+            </div>
+
             <form id="newComplaintForm" class="complaint-form">
+                <!-- Complaint Title -->
                 <div class="form-group">
-                    <label for="cTitle">Complaint Title *</label>
-                    <input type="text" id="cTitle" placeholder="Brief title of your complaint" required>
+                    <label>Complaint Title<span class="required">*</span></label>
+                    <input type="text" id="cTitle" placeholder="Brief description of the issue" required>
                 </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="cCategory">Category *</label>
-                        <select id="cCategory" required>
-                            <option value="">Select Category</option>
-                            <option value="Public Works">Public Works</option>
-                            <option value="Sanitation">Sanitation</option>
-                            <option value="Electricity">Electricity</option>
-                            <option value="Water Supply">Water Supply</option>
-                            <option value="Roads">Roads & Infrastructure</option>
-                            <option value="Other">Other</option>
-                        </select>
+
+                <!-- Category -->
+                <div class="form-group">
+                    <label>Category<span class="required">*</span></label>
+                    <select id="cCategory" required>
+                        <option value="">Select a category</option>
+                        <option value="Roads">Roads & Infrastructure</option>
+                        <option value="Water">Water Supply</option>
+                        <option value="Electricity">Electricity & Power</option>
+                        <option value="Sanitation">Sanitation & Waste</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <!-- Detailed Description -->
+                <div class="form-group">
+                    <label>Detailed Description<span class="required">*</span></label>
+                    <textarea id="cDescription" placeholder="Provide detailed information about the issue, including any relevant dates, times, or circumstances ..." rows="5" required></textarea>
+                </div>
+
+                <!-- Location -->
+                <div class="form-group">
+                    <label>Location<span class="required">*</span></label>
+                    <div class="location-input-group">
+                        <input type="text" id="cLocation" placeholder="Enter address or location" required>
+                        <button type="button" class="btn-use-map" onclick="useMapLocation()">📍 Use Map</button>
                     </div>
-                    <div class="form-group">
-                        <label for="cPriority">Priority *</label>
-                        <select id="cPriority" required>
-                            <option value="">Select Priority</option>
-                            <option value="Low">Low</option>
-                            <option value="Medium">Medium</option>
-                            <option value="High">High</option>
-                            <option value="Critical">Critical</option>
-                        </select>
+                    <small class="form-help">You can also click "Use Map" to pin the exact location on a map..</small>
+                </div>
+
+                <!-- Location Preview -->
+                <div class="form-group">
+                    <label>Location Preview<span class="required">*</span></label>
+                    <div class="location-preview">
+                        <div class="map-placeholder">
+                            <div class="map-icon">📍</div>
+                            <p>Map will display selected location<br>(Interactive map integration)</p>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Supporting Documents -->
                 <div class="form-group">
-                    <label for="cLocation">Location *</label>
-                    <input type="text" id="cLocation" placeholder="Where is the issue located?" required>
+                    <label>Supporting Documents / Images</label>
+                    <div class="file-upload-box">
+                        <input type="file" id="cDocuments" multiple accept="image/*,.pdf,.doc,.docx" style="display: none;">
+                        <div class="upload-icon">📤</div>
+                        <p>Click to upload or drag and drop<br>Images, PDF, DOC [Max 10MB per file]</p>
+                        <button type="button" class="btn-upload" onclick="document.getElementById('cDocuments').click()">Choose Files</button>
+                    </div>
                 </div>
 
+                <!-- Priority Level -->
                 <div class="form-group">
-                    <label for="cDescription">Detailed Description *</label>
-                    <textarea id="cDescription" placeholder="Describe your complaint in detail..." rows="5" required></textarea>
+                    <label>Priority Level</label>
+                    <select id="cPriority" required>
+                        <option value="">Select priority level</option>
+                        <option value="Low">Low - Can wait</option>
+                        <option value="Medium" selected>Medium - Normal attention</option>
+                        <option value="High">High - Urgent</option>
+                        <option value="Critical">Critical - Emergency</option>
+                    </select>
                 </div>
 
-                <div class="modal-actions">
-                    <button type="submit" class="btn-primary">Submit Complaint</button>
-                    <button type="button" class="btn-secondary" onclick="hideComplaintForm()">Cancel</button>
+                <!-- Contact Phone -->
+                <div class="form-group">
+                    <label>Contact Phone Number<span class="required">*</span></label>
+                    <div class="phone-input-group">
+                        <span class="phone-prefix">+91</span>
+                        <input type="tel" id="cPhone" placeholder="777-xxx-699" required>
+                    </div>
                 </div>
-                    <script src="script.js"></script>
-                    <script>loadDashboard();</script>
-                </body>
-                </html>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label>Email Address<span class="required">*</span></label>
+                    <input type="email" id="cEmail" placeholder="@your.email@example.com" required>
+                </div>
+
+                <!-- Buttons -->
+                <div class="form-buttons">
+                    <button type="submit" class="btn-submit">Submit Complaint</button>
+                    <button type="button" class="btn-cancel" onclick="hideComplaintForm()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

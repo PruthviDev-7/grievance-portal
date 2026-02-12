@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Dashboard - Grievance Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dashboard-body">
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        
+        <!-- Header Section -->
+        <div class="dashboard-header">
+            <div class="header-left">
+                <h1 class="dashboard-title">Official Dashboard</h1>
+                <p class="dashboard-subtitle">Public Works Department</p>
+            </div>
+            <div class="header-right">
+                <button class="btn-logout" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" id="tab-overview" onclick="switchTab('overview', this)">Overview</button>
+            <button class="tab-btn" id="tab-manage" onclick="switchTab('manage', this)">Manage Complaints</button>
+            <button class="tab-btn" id="tab-analysis" onclick="switchTab('analysis', this)">Analysis</button>
+        </div>
+
+        <!-- ==================== OVERVIEW TAB ==================== -->
+        <div id="overview-tab" class="tab-content active">
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card total">
+                    <h3 class="stat-label">Total Complaints</h3>
+                    <p class="stat-number" id="totalComplaints">0</p>
+                    <p class="stat-subtitle growth-positive">📈 +12% this month</p>
+                </div>
+
+                <div class="stat-card pending">
+                    <h3 class="stat-label">Pending</h3>
+                    <p class="stat-number pending-number" id="pendingComplaints">0</p>
+                    <p class="stat-subtitle">Need assignment</p>
+                </div>
+
+                <div class="stat-card in-progress">
+                    <h3 class="stat-label">In Progress</h3>
+                    <p class="stat-number in-progress-number" id="inProgressComplaints">0</p>
+                    <p class="stat-subtitle">Being worked on</p>
+                </div>
+
+                <div class="stat-card resolved">
+                    <h3 class="stat-label">Resolved</h3>
+                    <p class="stat-number resolved-number" id="resolvedComplaints">0</p>
+                    <p class="stat-subtitle">This month</p>
+                </div>
+
+                <div class="stat-card resolution-time">
+                    <h3 class="stat-label">Avg Resolution</h3>
+                    <p class="stat-number" id="avgResolutionTime">5.2d</p>
+                    <p class="stat-subtitle growth-positive">📉 -8% improvement</p>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-grid">
+                <!-- Pie Chart -->
+                <div class="chart-card">
+                    <h3 class="chart-title">Complaints by Category</h3>
+                    <p class="chart-subtitle">Distribution of complaints across departments</p>
+                    <div class="chart-container pie-chart-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Line Chart -->
+                <div class="chart-card">
+                    <h3 class="chart-title">Monthly Trends</h3>
+                    <p class="chart-subtitle">Complaints received vs resolved over time</p>
+                    <div class="chart-container line-chart-container">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Bar Chart -->
+                <div class="chart-card full-width">
+                    <h3 class="chart-title">Average Resolution Time by Category</h3>
+                    <p class="chart-subtitle">Days taken to resolve complaints per category</p>
+                    <div class="chart-container bar-chart-container">
+                        <canvas id="resolutionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== MANAGE COMPLAINTS TAB ==================== -->
+        <div id="manage-tab" class="tab-content">
+            <!-- Complaint Management Section -->
+            <div class="complaints-section manage-complaints-section">
+                <h2 class="section-title">Complaint Management</h2>
+                <p class="section-subtitle">Review, assign, and update complaint status</p>
+
+                <!-- Search Bar -->
+                <div class="search-filter-box">
+                    <input type="text" id="searchComplaint" class="search-input" placeholder="Search complaints..." onkeyup="filterOfficialComplaints()">
+                </div>
+
+                <!-- Filters -->
+                <div class="filters-row">
+                    <select id="statusFilter" class="filter-select" onchange="filterOfficialComplaints()">
+                        <option value="">All Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+
+                    <select id="categoryFilter" class="filter-select" onchange="filterOfficialComplaints()">
+                        <option value="">All Categories</option>
+                        <option value="Roads">Roads & Infrastructure</option>
+                        <option value="Water">Water Supply</option>
+                        <option value="Electricity">Electricity & Power</option>
+                        <option value="Sanitation">Sanitation & Waste</option>
+                    </select>
+                </div>
+
+                <!-- Complaints List -->
+                <div class="official-complaints-list" id="officialComplaintsList">
+                    <!-- Complaints will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== ANALYSIS TAB ==================== -->
+        <div id="analysis-tab" class="tab-content">
+            <!-- Performance Metrics -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <h3 class="metric-label">Performance Score</h3>
+                    <p class="metric-value score">92%</p>
+                    <p class="metric-description">Based on resolution time and citizen satisfaction</p>
+                </div>
+
+                <div class="metric-card">
+                    <h3 class="metric-label">Citizen Satisfaction</h3>
+                    <p class="metric-value satisfaction">4.3/5</p>
+                    <p class="metric-description">Average rating from resolved complaints</p>
+                </div>
+
+                <div class="metric-card">
+                    <h3 class="metric-label">Response Time</h3>
+                    <p class="metric-value response-time">2.4h</p>
+                    <p class="metric-description">Average time to first response</p>
+                </div>
+            </div>
+
+            <!-- Recurring Issues -->
+            <div class="issues-section">
+                <h3 class="section-title">Recurring Issues Analysis</h3>
+                <p class="section-subtitle">Most common complaints requiring proactive measures</p>
+                
+                <div class="issues-list">
+                    <div class="issue-item increasing">
+                        <div class="issue-info">
+                            <h4 class="issue-title">Potholes in Downtown area</h4>
+                            <p class="issue-count">9 complaints this month</p>
+                        </div>
+                        <span class="issue-status increasing">🔴 Increasing</span>
+                    </div>
+
+                    <div class="issue-item stable">
+                        <div class="issue-info">
+                            <h4 class="issue-title">Street light failures</h4>
+                            <p class="issue-count">18 complaints this month</p>
+                        </div>
+                        <span class="issue-status stable">⚪ Stable</span>
+                    </div>
+
+                    <div class="issue-item decreasing">
+                        <div class="issue-info">
+                            <h4 class="issue-title">Drainage blockages</h4>
+                            <p class="issue-count">12 complaints this month</p>
+                        </div>
+                        <span class="issue-status decreasing">🟢 Decreasing</span>
+                    </div>
+
+                    <div class="issue-item increasing">
+                        <div class="issue-info">
+                            <h4 class="issue-title">Water Supply Interruptions</h4>
+                            <p class="issue-count">7 complaints this month</p>
+                        </div>
+                        <span class="issue-status increasing">🔴 Increasing</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- ==================== MANAGE MODAL ==================== -->
+    <div id="manageModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Manage Complaint</h2>
+                <p class="modal-description">Update status and assignment for this complaint.</p>
+            </div>
+            
+            <div class="complaint-form">
+                <input type="hidden" id="manageComplaintId">
+                
+                <div class="form-group">
+                    <label>Assigned Official</label>
+                    <input type="text" id="assigneeInput" placeholder="Enter official's name">
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="updateStatusInput">
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+                </div>
+
+                <div class="form-buttons">
+                    <button class="btn-submit" onclick="updateComplaint()">Update Complaint</button>
+                    <button class="btn-logout" onclick="closeManageModal()" style="background: white;">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="official-dashboard.js"></script>
+</body>
+</html>
