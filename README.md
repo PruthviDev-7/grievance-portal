@@ -95,10 +95,14 @@ The app runs on `http://localhost:3000` by default.
 Add screenshots to show the UI and workflows. Recommended: create a folder such as `docs/screenshots/` and store all images there.
 
 ```md
-![Home Page](docs/screenshots/home-page.png)
-![Citizen Dashboard](docs/screenshots/citizen-dashboard.png)
-![Complaint Submission](docs/screenshots/complaint-form.png)
-![Official Dashboard](docs/screenshots/official-dashboard.png)
+![Home Page]<img width="960" height="600" alt="{EB51167C-C204-4952-AE5A-8EE7B29C149D}" src="https://github.com/user-attachments/assets/6e85f2c5-211d-4e66-82d3-11c29231e595" />
+
+![Citizen Dashboard]<img width="953" height="540" alt="{DC2F7879-6C16-4D4F-84AC-2E8650254131}" src="https://github.com/user-attachments/assets/d3e3bee5-0d9b-4e42-b9cf-b943f37a8b8c" />
+
+![Complaint Submission]<img width="960" height="571" alt="{A18D263F-A695-468D-939D-4031447F4587}" src="https://github.com/user-attachments/assets/a57a2b4e-dda7-4fc7-8d0b-2695ead31e86" />
+
+![Official Dashboard]<img width="960" height="571" alt="{42351E27-F003-4136-B0D8-E790EE0E2FAF}" src="https://github.com/user-attachments/assets/78f01a5a-4f8d-4775-ad3b-a7ec5c341e74" />
+
 ```
 
 ## Notes
